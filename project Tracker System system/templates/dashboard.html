@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Class Project Submission Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="{{ url_for('home') }}" class="brand">
+            <span class="brand-icon">📋</span>
+            <span class="brand-text">Class Project Submission Tracker</span>
+        </a>
+        <nav class="nav-links">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-light">Home</a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline-light">About Us</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-solid-light">Logout</a>
+        </nav>
+    </header>
+
+    <!-- DASHBOARD HEADER -->
+    <section class="dash-header">
+        <span class="role-tag">{{ 'Teacher' if role == 'teacher' else 'Student' }}</span>
+        <h1>Welcome, {{ full_name }}</h1>
+        <p>
+            {% if role == 'teacher' %}
+                Add projects, update submission status, and manage the records of the whole class.
+            {% else %}
+                Here are your projects with their due dates and submission status. This view is read-only.
+            {% endif %}
+        </p>
+    </section>
+
+    <main class="dash-main">
+
+        <!-- MESSAGES FROM THE SERVER -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-list">
+                {% for category, message in messages %}
+                <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- TABS: ALL / SUBMITTED / PENDING -->
+        <nav class="stats" aria-label="Filter projects">
+            <a class="stat {% if active_filter == 'all' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+                <span class="stat-count">{{ counts.all }}</span>
+                <span class="stat-label">All</span>
+            </a>
+            <a class="stat stat-submitted {% if active_filter == 'submitted' %}active{% endif %}" href="{{ url_for('dashboard', filter='submitted') }}">
+                <span class="stat-count">{{ counts.submitted }}</span>
+                <span class="stat-label">Submitted</span>
+            </a>
+            <a class="stat stat-pending {% if active_filter == 'pending' %}active{% endif %}" href="{{ url_for('dashboard', filter='pending') }}">
+                <span class="stat-count">{{ counts.pending }}</span>
+                <span class="stat-label">Pending</span>
+            </a>
+        </nav>
+
+        <!-- SUBJECTS & TEACHERS -->
+        <section class="panel">
+            <h2>Subjects &amp; teachers</h2>
+            <div class="subject-grid">
+                {% for code, teacher in subject_teachers.items() %}
+                <div class="subject-card {% if code in my_subjects %}mine{% endif %}">
+                    <span class="subject-tag">{{ code }}</span>
+                    <span class="sc-name">{{ teacher if teacher else 'Teacher not assigned yet' }}</span>
+                    {% if code in my_subjects %}<span class="mine-tag">You teach this</span>{% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if role == 'teacher' %}
+            <details class="edit-subjects" {% if not my_subjects %}open{% endif %}>
+                <summary>{{ 'Choose the subjects you teach' if not my_subjects else 'Change the subjects I teach' }}</summary>
+                <form method="post" action="{{ url_for('set_teacher_subjects') }}">
+                    <div class="check-grid">
+                        {% for code, teacher in subject_teachers.items() %}
+                        <label class="check-item">
+                            <input type="checkbox" name="subjects" value="{{ code }}" {% if code in my_subjects %}checked{% endif %}>
+                            <span><strong>{{ code }}</strong>{% if teacher %} — {{ teacher }}{% endif %}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="primary-btn">Save my subjects</button>
+                </form>
+            </details>
+            {% endif %}
+        </section>
+
+        {% if role == 'teacher' %}
+        <!-- ADD PROJECT (teacher only) -->
+        <section class="panel">
+            <h2>Add a project</h2>
+            {% if students and my_subjects %}
+            <form class="add-form" method="post" action="{{ url_for('add_project') }}">
+                {% if active_filter != 'all' %}
+                <input type="hidden" name="filter" value="{{ active_filter }}">
+                {% endif %}
+
+                <label>
+                    <span>Student</span>
+                    <select name="student_id" required>
+                        <option value="all">All students</option>
+                        {% for s in students %}
+                        <option value="{{ s.id }}">{{ s.full_name }} ({{ s.school_id }})</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label>
+                    <span>Subject</span>
+                    <select name="subject" required>
+                        {% for subject in subjects %}
+                        <option value="{{ subject }}">{{ subject }}{% if subject_teachers[subject] %} — {{ subject_teachers[subject] }}{% endif %}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label class="grow">
+                    <span>Project title</span>
+                    <input type="text" name="title" maxlength="120" placeholder="e.g. Final web application" required>
+                </label>
+
+                <label>
+                    <span>Due date</span>
+                    <input type="date" name="due_date" required>
+                </label>
+
+                <button type="submit" class="primary-btn">Add project</button>
+            </form>
+            {% elif not my_subjects %}
+            <p class="empty-note">Choose the subjects you teach above to start adding projects.</p>
+            {% else %}
+            <p class="empty-note">No students have registered yet. Projects can be added once a student creates an account.</p>
+            {% endif %}
+        </section>
+        {% endif %}
+
+        <!-- PROJECT LIST -->
+        <section class="panel">
+            <h2>
+                {% if active_filter == 'submitted' %}Submitted projects
+                {% elif active_filter == 'pending' %}Pending projects
+                {% else %}All projects{% endif %}
+            </h2>
+
+            {% if projects %}
+            <div class="table-wrap">
+                <table class="projects">
+                    <thead>
+                        <tr>
+                            {% if role == 'teacher' %}<th>Student</th>{% endif %}
+                            <th>Subject</th>
+                            <th>Project</th>
+                            <th>Due date</th>
+                            <th>Status</th>
+                            {% if role == 'teacher' %}<th>Actions</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in projects %}
+                        <tr>
+                            {% if role == 'teacher' %}
+                            <td data-label="Student">
+                                {{ p.student_name }}
+                                <span class="sub-id">{{ p.student_school_id }}</span>
+                            </td>
+                            {% endif %}
+                            <td data-label="Subject">
+                                <span class="subject-cell">
+                                    <span class="subject-tag">{{ p.subject }}</span>
+                                    {% if p.teacher %}<span class="sub-id">{{ p.teacher }}</span>{% endif %}
+                                </span>
+                            </td>
+                            <td data-label="Project" class="title-cell">{{ p.title }}</td>
+                            <td data-label="Due date">
+                                {{ p.due_date }}
+                                {% if p.overdue %}<span class="status status-overdue">Overdue</span>{% endif %}
+                            </td>
+                            <td data-label="Status">
+                                <span class="status status-{{ p.status }}">{{ p.status|capitalize }}</span>
+                            </td>
+                            {% if role == 'teacher' %}
+                            <td data-label="Actions" class="actions">
+                                <form method="post" action="{{ url_for('update_status', project_id=p.id) }}">
+                                    {% if active_filter != 'all' %}<input type="hidden" name="filter" value="{{ active_filter }}">{% endif %}
+                                    {% if p.status == 'pending' %}
+                                    <input type="hidden" name="status" value="submitted">
+                                    <button type="submit" class="mini-btn mini-done">Mark submitted</button>
+                                    {% else %}
+                                    <input type="hidden" name="status" value="pending">
+                                    <button type="submit" class="mini-btn">Mark pending</button>
+                                    {% endif %}
+                                </form>
+                                <form method="post" action="{{ url_for('delete_project', project_id=p.id) }}"
+                                      onsubmit="return confirm('Delete this project?');">
+                                    {% if active_filter != 'all' %}<input type="hidden" name="filter" value="{{ active_filter }}">{% endif %}
+                                    <button type="submit" class="mini-btn mini-danger">Delete</button>
+                                </form>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-note">
+                {% if active_filter == 'all' %}
+                    {% if role == 'teacher' %}No projects yet. Use the form above to add the first one.{% else %}No projects yet. Your teacher will add them here.{% endif %}
+                {% else %}
+                    No {{ active_filter }} projects.
+                {% endif %}
+            </p>
+            {% endif %}
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Class Project Submission Tracker. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

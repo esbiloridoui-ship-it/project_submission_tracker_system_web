@@ -1,0 +1,73 @@
+
+.page-header {
+    padding: 88px var(--gutter) 96px;
+    color: var(--white);
+    text-align: left;
+    background-color: var(--ink);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 36px 36px;
+    border-bottom: 8px solid var(--highlight);
+}
+
+.page-header h1 {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    animation: fadeUp 0.6s ease both;
+}
+
+.page-header p {
+    max-width: 600px;
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    color: rgba(255, 255, 255, 0.82);
+    animation: fadeUp 0.6s 0.08s ease both;
+}
+
+/* ---------- Nav: current page ---------- */
+.btn-outline-light.active {
+    color: var(--white) !important;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 -3px 0 var(--highlight);
+}
+
+/* ---------- Subtitles stay a comfortable line length ---------- */
+.section-sub {
+    max-width: 680px;
+}
+
+/* ---------- Call to action: navy button on the yellow band ---------- */
+.cta .btn-solid-light {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--white) !important;
+    margin-left: 0;
+    box-shadow: 0 4px 0 var(--ink-deep);
+}
+
+.cta .btn-solid-light:hover {
+    background: var(--ink-soft);
+    border-color: var(--ink-soft);
+}
+
+.cta .btn-solid-light:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--ink-deep);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .page-header {
+        padding: 64px 6% 72px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-header h1,
+    .page-header p { animation: none; }
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Project Submission Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="{{ url_for('home') }}" class="brand">
+            <span class="brand-icon">📋</span>
+            <span class="brand-text">Class Project Submission Tracker</span>
+        </a>
+        <nav class="nav-links">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-light">Home</a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline-light">About Us</a>
+            <a href="{{ url_for('login_page') }}" class="btn btn-solid-light">Login</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Class Project Submission Tracker</h1>
+            <p class="hero-sub">
+                Keep track of every class project in one place. See what is submitted,
+                what is still pending, and when everything is due.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ url_for('login_page') }}" class="btn btn-primary">Login</a>
+                <a href="{{ url_for('about') }}" class="btn btn-ghost">About Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="cta">
+        <h2>Ready to track your projects?</h2>
+        <p>Register or log in to open your dashboard.</p>
+        <a href="{{ url_for('login_page') }}" class="btn btn-primary btn-light">Login / Register</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Class Project Submission Tracker. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

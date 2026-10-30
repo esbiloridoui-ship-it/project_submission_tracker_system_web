@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — Class Project Submission Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="{{ url_for('home') }}" class="brand">
+            <span class="brand-icon">📋</span>
+            <span class="brand-text">Class Project Submission Tracker</span>
+        </a>
+        <nav class="nav-links">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-light">Home</a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline-light active">About Us</a>
+            <a href="{{ url_for('login_page') }}" class="btn btn-solid-light">Login</a>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <h1>About Us</h1>
+        <p> 
+            Learn what the Class Project Submission Tracker is, why it was made,
+            and how it helps students and their teacher.
+        </p>
+    </section>
+
+    <!-- WHO WE ARE -->
+    <section class="section" id="about">
+        <h2 class="section-title">Who We Are</h2>
+        <p class="section-sub">Why we built the Class Project Submission Tracker.</p>
+        <p class="about-text">
+            The Class Project Submission Tracker is a class system that keeps every
+            project, due date, and submission status in one place, so nothing gets
+            lost or forgotten. Students can see their projects, due dates, and
+            submission status, while the teacher adds projects and updates records
+            for the whole class.
+        </p>
+    </section>
+
+    <!-- OUR PURPOSE -->
+    <section class="section section-alt" id="purpose">
+        <h2 class="section-title">Our Purpose</h2>
+        <p class="section-sub">What we want to achieve with this system.</p>
+
+        <div class="grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Our Mission</h3>
+                <p>To make tracking class projects simple, clear, and organized for everyone in the class.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👀</div>
+                <h3>Our Vision</h3>
+                <p>A class where students always know what is due and the teacher can see every submission at a glance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Our Goal</h3>
+                <p>To reduce missed deadlines and confusion by keeping project records in one shared system.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHO IT IS FOR -->
+    <section class="section" id="who-for">
+        <h2 class="section-title">Who It Is For</h2>
+        <p class="section-sub">The system has two kinds of users, each with their own dashboard.</p>
+
+        <div class="grid">
+            <div class="feature-card">
+                <div class="feature-icon">👩‍🎓</div>
+                <h3>Students</h3>
+                <p>View all your projects with due dates and status. Check what is submitted and what is still pending. Students have view-only access.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3>Teacher</h3>
+                <p>Add projects to students, update submission status, and manage all student records with full access.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section section-alt" id="features">
+        <h2 class="section-title">Features</h2>
+        <p class="section-sub">Simple tools for both students and teachers.</p>
+
+        <div class="grid">
+            <div class="feature-card">
+                <div class="feature-icon">👩‍🎓</div>
+                <h3>Student View</h3>
+                <p>Students can view all their projects, with due dates and status, in a clear read-only dashboard.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3>Teacher Control</h3>
+                <p>The teacher can add projects, update submission status, and manage all student records.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Submitted &amp; Pending</h3>
+                <p>Projects are sorted into All, Submitted, and Pending tabs so nothing gets missed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Secure Login</h3>
+                <p>Each user registers with a School or Employee ID and password to access their own dashboard.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-sub">Three easy steps to get started.</p>
+
+        <div class="steps">
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Register</h3>
+                <p>Create an account as a student or as the teacher using your School / Employee ID.</p>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Login</h3>
+                <p>Sign in to open your dashboard. Students see their projects, the teacher sees everything.</p>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Track Projects</h3>
+                <p>Follow due dates and submission status for every subject until all projects are done.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUBJECTS -->
+    <section class="section section-alt" id="subjects">
+        <h2 class="section-title">Subjects Covered</h2>
+        <p class="section-sub">Projects are organized per subject.</p>
+
+        <div class="subject-list">
+            {% for code, teacher in subject_teachers.items() %}
+            <span class="subject-pill">{{ code }}{% if teacher %}<small>{{ teacher }}</small>{% endif %}</span>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="cta">
+        <h2>Ready to get started?</h2>
+        <p>Register or log in to open your dashboard.</p>
+        <a href="{{ url_for('login_page') }}" class="btn btn-solid-light">Login / Register</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Class Project Submission Tracker. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

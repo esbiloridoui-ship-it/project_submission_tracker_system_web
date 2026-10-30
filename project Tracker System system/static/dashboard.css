@@ -1,0 +1,446 @@
+/* ==========================================================
+   dashboard.css — styles for the Dashboard page (dashboard.html)
+   Load AFTER home.css. home.css provides the colors, fonts,
+   navbar, buttons and footer; this file adds the dashboard parts.
+   ========================================================== */
+
+.dash-header {
+    padding: 64px var(--gutter) 72px;
+    color: var(--white);
+    background-color: var(--ink);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 36px 36px;
+    border-bottom: 8px solid var(--highlight);
+}
+
+.role-tag {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 4px 14px;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--highlight);
+    border-radius: 999px;
+}
+
+.dash-header h1 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+}
+
+.dash-header p {
+    max-width: 620px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.08rem;
+}
+
+/* ---------- Main column ---------- */
+.dash-main {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 40px 6% 72px;
+}
+
+@media (min-width: 1300px) {
+    .dash-main { padding-left: 0; padding-right: 0; }
+}
+
+/* ---------- Flash messages ---------- */
+.flash-list { margin-bottom: 24px; }
+
+.flash {
+    margin: 0 0 8px;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+    border-left: 5px solid;
+}
+
+.flash.error   { color: #8a1c12; background: #fde8e6; border-left-color: #d92d20; }
+.flash.success { color: #0d5c3d; background: #e3f6ee; border-left-color: var(--done); }
+
+/* ---------- Tabs: All / Submitted / Pending ---------- */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 18px 22px;
+    color: var(--ink);
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.stat:hover { border-color: var(--ink); }
+
+.stat-count {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1.1;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.stat-submitted .stat-count { color: var(--done); }
+.stat-pending .stat-count   { color: #b26a00; }
+
+.stat.active {
+    background: var(--ink);
+    border-color: var(--ink);
+}
+
+.stat.active .stat-count,
+.stat.active .stat-label { color: var(--white); }
+.stat.active .stat-count { color: var(--highlight); }
+
+/* ---------- Panels ---------- */
+.panel {
+    margin-bottom: 28px;
+    padding: 28px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.panel h2 {
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+}
+
+.empty-note {
+    margin: 0;
+    padding: 20px;
+    color: var(--muted);
+    text-align: center;
+    background: var(--paper);
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius-sm);
+}
+
+/* ---------- Add project form ---------- */
+.add-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.add-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 170px;
+}
+
+.add-form label.grow {
+    flex: 1 1 240px;
+}
+
+.add-form label span {
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.add-form input,
+.add-form select {
+    width: 100%;
+    padding: 11px 13px;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+}
+
+.add-form input:focus,
+.add-form select:focus {
+    outline: none;
+    background: var(--white);
+    border-color: var(--ink);
+    box-shadow: 0 0 0 4px rgba(255, 210, 63, 0.55);
+}
+
+.primary-btn {
+    padding: 12px 24px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 0 var(--ink-deep);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.primary-btn:hover { background: var(--ink-soft); }
+
+.primary-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--ink-deep);
+}
+
+/* ---------- Projects table ---------- */
+.table-wrap { overflow-x: auto; }
+
+.projects {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.97rem;
+}
+
+.projects th {
+    padding: 10px 14px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--ink);
+}
+
+.projects td {
+    padding: 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--line);
+}
+
+.projects tbody tr:hover { background: var(--paper); }
+
+.title-cell { font-weight: 600; }
+
+.sub-id {
+    display: block;
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+.subject-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.subject-tag {
+    display: inline-block;
+    padding: 3px 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--paper-alt);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.status {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 3px 12px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    border-radius: 999px;
+}
+
+td[data-label="Status"] .status { margin-left: 0; }
+
+.status-submitted { color: #0d5c3d; background: #e3f6ee; }
+.status-pending   { color: #7a5200; background: #fff1c9; }
+.status-overdue   { color: #8a1c12; background: #fde8e6; }
+
+/* ---------- Row action buttons ---------- */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.actions form { margin: 0; }
+
+.mini-btn {
+    padding: 7px 12px;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: 7px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.mini-btn:hover { border-color: var(--ink); background: var(--paper-alt); }
+
+.mini-done { color: #0d5c3d; border-color: #a6dcc5; }
+.mini-done:hover { background: #e3f6ee; border-color: var(--done); }
+
+.mini-danger { color: #b42318; border-color: #f2b8b2; }
+.mini-danger:hover { background: #fde8e6; border-color: #d92d20; }
+
+:focus-visible { outline-offset: 2px; }
+
+/* ---------- Mobile: each row becomes a card ---------- */
+@media (max-width: 760px) {
+    .stats { gap: 10px; }
+    .stat { padding: 14px; }
+    .stat-count { font-size: 1.6rem; }
+    .panel { padding: 20px 16px; }
+
+    .projects thead { display: none; }
+
+    .projects,
+    .projects tbody,
+    .projects tr,
+    .projects td { display: block; width: 100%; }
+
+    .projects tr {
+        margin-bottom: 14px;
+        padding: 6px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: var(--radius-sm);
+    }
+
+    .projects td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 0;
+        text-align: right;
+    }
+
+    .projects td:last-child { border-bottom: 0; }
+
+    .projects td::before {
+        content: attr(data-label);
+        flex-shrink: 0;
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.06em;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    .actions { justify-content: flex-end; }
+    .subject-cell { align-items: flex-end; }
+    .add-form label { min-width: 100%; }
+    .primary-btn { width: 100%; }
+}
+
+/* ---------- Subjects & teachers ---------- */
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+}
+
+.subject-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 16px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+}
+
+.subject-card .sc-name {
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.subject-card.mine {
+    background: #fff9e0;
+    border-color: var(--highlight-dark);
+}
+
+.mine-tag {
+    padding: 2px 10px;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--highlight);
+    border-radius: 999px;
+}
+
+/* ---------- Teacher: choose my subjects ---------- */
+.edit-subjects {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.edit-subjects summary {
+    color: var(--ink);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.edit-subjects form { margin-top: 16px; }
+
+.check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 8px 20px;
+    margin-bottom: 16px;
+}
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.check-item input {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    accent-color: var(--ink);
+    cursor: pointer;
+}

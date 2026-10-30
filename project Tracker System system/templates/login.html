@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Class Project Submission Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage">
+        <a href="{{ url_for('home') }}" class="back-home">&larr; Back to Home</a>
+        <h1>Class Project Submission Tracker</h1>
+
+        <!-- MESSAGES FROM THE SERVER -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-list">
+                {% for category, message in messages %}
+                <p class="flash {{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- REGISTER -->
+        <form class="card {% if show_form == 'login' %}hidden{% endif %}" id="registerBox"
+              method="post" action="{{ url_for('register') }}" onsubmit="return validateRegister()">
+            <h2>Register Account</h2>
+            <select id="regRole" name="role" onchange="toggleTeacherCode()">
+                <option value="student">I am a Student</option>
+                <option value="teacher">I am the Teacher</option>
+            </select>
+            <input type="text" id="regName" name="full_name" placeholder="Full Name" autocomplete="name" required>
+            <input type="text" id="regID" name="school_id" placeholder="School ID / Employee ID" autocomplete="username" required>
+            <input type="email" id="regEmail" name="email" placeholder="Email Address" autocomplete="email" required>
+            <input type="text" id="regContact" name="contact" placeholder="Contact Number" autocomplete="tel" required>
+            <input type="password" id="regPass" name="password" placeholder="Create Password (at least 8 characters)" autocomplete="new-password" minlength="8" required>
+            <label class="show-pass">
+                <input type="checkbox" onchange="togglePassword('regPass', this)"> Show password
+            </label>
+            <!-- Teachers choose the subjects they teach -->
+            <div class="subject-picker hidden" id="teacherSubjects">
+                <span class="picker-title">Subjects you teach</span>
+                {% for code, teacher in subject_teachers.items() %}
+                <label class="subject-check">
+                    <input type="checkbox" name="subjects" value="{{ code }}">
+                    <span class="sc-code">{{ code }}</span>
+                    {% if teacher %}<span class="sc-teacher">{{ teacher }}</span>{% endif %}
+                </label>
+                {% endfor %}
+            </div>
+            {% if teacher_code_required %}
+            <input type="password" id="regTeacherCode" name="teacher_code" class="hidden" placeholder="Teacher Access Code" autocomplete="off">
+            {% endif %}
+            <button type="submit">Register</button>
+            <p>Already registered? <a href="#login" onclick="return showLogin()">Login here</a></p>
+        </form>
+
+        <!-- LOGIN -->
+        <form class="card {% if show_form != 'login' %}hidden{% endif %}" id="loginBox"
+              method="post" action="{{ url_for('login') }}">
+            <h2>Login</h2>
+            <input type="text" id="loginID" name="school_id" placeholder="School / Employee ID" autocomplete="username" required>
+            <input type="password" id="loginPass" name="password" placeholder="Password" autocomplete="current-password" required>
+            <label class="show-pass">
+                <input type="checkbox" onchange="togglePassword('loginPass', this)"> Show password
+            </label>
+            <button type="submit">Login</button>
+            <p>New here? <a href="#register" onclick="return showRegister()">Register first</a></p>
+        </form>
+    </div>
+
+    <script>
+        function showLogin() {
+            document.getElementById("registerBox").classList.add("hidden");
+            document.getElementById("loginBox").classList.remove("hidden");
+            return false;
+        }
+
+        function showRegister() {
+            document.getElementById("loginBox").classList.add("hidden");
+            document.getElementById("registerBox").classList.remove("hidden");
+            return false;
+        }
+
+        // Show / hide the password in the given field
+        function togglePassword(fieldId, checkbox) {
+            document.getElementById(fieldId).type = checkbox.checked ? "text" : "password";
+        }
+
+        // The teacher access code only appears when "Teacher" is selected
+        function toggleTeacherCode() {
+            var isTeacher = document.getElementById("regRole").value === "teacher";
+
+            // subjects the teacher teaches
+            document.getElementById("teacherSubjects").classList.toggle("hidden", !isTeacher);
+
+            // optional teacher access code
+            var codeField = document.getElementById("regTeacherCode");
+            if (codeField) {
+                codeField.classList.toggle("hidden", !isTeacher);
+                codeField.required = isTeacher;
+            }
+        }
+
+        // A teacher must pick at least one subject
+        function validateRegister() {
+            if (document.getElementById("regRole").value !== "teacher") return true;
+            var picked = document.querySelectorAll('#teacherSubjects input[type="checkbox"]:checked');
+            if (picked.length === 0) {
+                alert("Please select at least one subject you teach.");
+                return false;
+            }
+            return true;
+        }
+        toggleTeacherCode();
+    </script>
+</body>
+</html>

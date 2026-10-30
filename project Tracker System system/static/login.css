@@ -1,0 +1,350 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap");
+
+/* ==========================================================
+   login.css — styles for the Login / Register page (login.html)
+   Same design system as home.css and about.css:
+   navy ink, highlighter yellow, graph-paper background.
+   Everything is scoped to #loginPage so the dashboards that
+   share this page are not affected.
+   Load AFTER style.css.
+   ========================================================== */
+
+:root {
+    --ink: #14213d;
+    --ink-deep: #0d1630;
+    --ink-soft: #2b3a5c;
+    --paper: #f5f8fc;
+    --paper-alt: #e9eff8;
+    --line: #d5deec;
+    --muted: #55637d;
+    --white: #ffffff;
+    --highlight: #ffd23f;
+    --highlight-dark: #f2bd13;
+    --done: #1d9a6c;
+
+    --radius: 12px;
+    --radius-sm: 8px;
+
+    --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --font-body: "DM Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Page: full-screen navy graph paper ---------- */
+#loginPage {
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 6%;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--ink);
+    background-color: var(--ink);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 36px 36px;
+}
+
+#loginPage *,
+#loginPage *::before,
+#loginPage *::after {
+    box-sizing: border-box;
+}
+
+/* ---------- Back link ---------- */
+#loginPage .back-home {
+    align-self: center;
+    width: 100%;
+    max-width: 440px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+#loginPage .back-home:hover {
+    color: var(--highlight);
+}
+
+/* ---------- Page title ---------- */
+#loginPage h1 {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 0 24px;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.7rem, 5vw, 2.3rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    text-align: left;
+}
+
+/* ---------- Card ---------- */
+#loginPage .card {
+    width: 100%;
+    max-width: 440px;
+    padding: 32px 30px 30px;
+    background: var(--white);
+    border: 0;
+    border-top: 8px solid var(--highlight);
+    border-radius: var(--radius);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    text-align: left;
+}
+
+#loginPage .card.hidden,
+#loginPage .hidden {
+    display: none;
+}
+
+#loginPage .card h2 {
+    margin: 0 0 22px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+/* ---------- Form fields ---------- */
+#loginPage input,
+#loginPage select {
+    display: block;
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 13px 14px;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-color: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+#loginPage input::placeholder {
+    color: #8895ad;
+}
+
+#loginPage input:hover,
+#loginPage select:hover {
+    border-color: #b7c4da;
+}
+
+#loginPage input:focus,
+#loginPage select:focus {
+    outline: none;
+    background-color: var(--white);
+    border-color: var(--ink);
+    box-shadow: 0 0 0 4px rgba(255, 210, 63, 0.55);
+}
+
+/* dropdown arrow */
+#loginPage select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 42px;
+    font-weight: 600;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%2314213d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+}
+
+/* ---------- Button ---------- */
+#loginPage button {
+    display: block;
+    width: 100%;
+    margin: 6px 0 0;
+    padding: 14px 20px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 0 var(--ink-deep);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+#loginPage button:hover {
+    background: var(--ink-soft);
+    border-color: var(--ink-soft);
+}
+
+#loginPage button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--ink-deep);
+}
+
+/* ---------- Switch between Login / Register ---------- */
+#loginPage .card p {
+    margin: 22px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+#loginPage .card p a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--highlight);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 3px;
+    transition: background 0.2s;
+}
+
+#loginPage .card p a:hover {
+    background: var(--highlight);
+}
+
+/* ---------- Keyboard focus ---------- */
+#loginPage a:focus-visible,
+#loginPage button:focus-visible {
+    outline: 3px solid var(--highlight);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    #loginPage {
+        justify-content: flex-start;
+        padding: 28px 5% 40px;
+    }
+
+    #loginPage .card {
+        padding: 26px 20px 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #loginPage a,
+    #loginPage input,
+    #loginPage select,
+    #loginPage button {
+        transition: none;
+    }
+}
+
+/* ==========================================================
+   Added for the Flask version: flash messages + show password
+   ========================================================== */
+
+/* ---------- Flash messages ---------- */
+#loginPage .flash-list {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 0 16px;
+}
+
+#loginPage .flash {
+    margin: 0 0 8px;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+    border-left: 5px solid;
+}
+
+#loginPage .flash.error {
+    color: #8a1c12;
+    background: #fde8e6;
+    border-left-color: #d92d20;
+}
+
+#loginPage .flash.success {
+    color: #0d5c3d;
+    background: #e3f6ee;
+    border-left-color: var(--done);
+}
+
+/* ---------- Show password checkbox ---------- */
+#loginPage .show-pass {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: -4px 0 14px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+#loginPage .show-pass input {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--ink);
+    cursor: pointer;
+}
+
+/* ---------- Teacher: subjects they teach (register form) ---------- */
+#loginPage .subject-picker {
+    margin: 0 0 14px;
+    padding: 14px 16px 8px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+}
+
+#loginPage .picker-title {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+#loginPage .subject-check {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+}
+
+#loginPage .subject-check:first-of-type {
+    border-top: 0;
+}
+
+#loginPage .subject-check input {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--ink);
+    cursor: pointer;
+}
+
+#loginPage .sc-code {
+    font-weight: 700;
+}
+
+#loginPage .sc-teacher {
+    color: var(--muted);
+    font-size: 0.88rem;
+}
